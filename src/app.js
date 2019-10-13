@@ -19,15 +19,22 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
+app.get('/',(req,res)=>{
+  res.send('Hallo')
+})
+
 app.get('/posts', (req, res) => {
-  res.send(
-    [
-      {
-        title: "hello world",
-        description: "how are you?"
-      }
-    ]
-  )
+  setTimeout(() => {
+    
+    res.send(
+      [
+        {
+          title: "hello world",
+          description: "how are you?"
+        }
+      ]
+      )
+    }, 2000);
 })
 
 app.get('/todos', (req, res) => {
@@ -40,6 +47,19 @@ app.get('/todos', (req, res) => {
     }
     res.send(result)
   })
+})
+let count = 0
+app.post('/login', (req, res) => {
+  setTimeout(() => {
+    if (count%2===0) { 
+      res.status(400).send({ error: 'Something failed!' })
+    }else{
+      res.status(200).send({
+        data:{...req.body}
+      })
+    }
+    count++
+  }, 2000);
 })
 
 app.listen(process.env.PORT || 8081)
